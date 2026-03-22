@@ -1,5 +1,6 @@
 # ─── Stage 1: Install dependencies ────────────────────────────
 FROM node:20-alpine AS deps
+# Sync timestamp: 2026-03-22T00:07:00Z
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
