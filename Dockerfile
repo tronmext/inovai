@@ -1,12 +1,12 @@
-# ─── Stage 1: Install dependencies ────────────────────────────
+# ─── Stage 1: Install ALL dependencies (dev included for build) ──
 FROM node:20-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
-RUN npm ci --omit=dev
+RUN npm ci
 
-# ─── Stage 2: Build the application ──────────────────────────
+# ─── Stage 2: Build the application ─────────────────────────────
 FROM node:20-alpine AS builder
 WORKDIR /app
 
@@ -16,7 +16,7 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
-# ─── Stage 3: Production runner ──────────────────────────────
+# ─── Stage 3: Production runner (minimal image) ─────────────────
 FROM node:20-alpine AS runner
 WORKDIR /app
 
